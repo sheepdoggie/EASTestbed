@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/invariant.schema.json",
+  "title": "EAS Invariant Candidate",
+  "type": "object",
+  "required": ["schema_version", "invariant_id", "definition", "admissibility"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "invariant_id": {"type": "string"},
+    "name": {"type": "string"},
+    "definition": {
+      "type": "object",
+      "required": ["expression", "template_refs"],
+      "properties": {
+        "expression": {"type": "string"},
+        "template_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "computed_from_explicit_fields": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "tests": {
+      "type": "object",
+      "properties": {
+        "redescription_stability": {
+          "type": "object",
+          "properties": {
+            "tested": {"type": "boolean"},
+            "metric": {"type": "string"},
+            "value": {"type": "number"},
+            "threshold": {"type": "number"}
+          },
+          "additionalProperties": false
+        },
+        "class_separation": {
+          "type": "object",
+          "properties": {
+            "tested": {"type": "boolean"},
+            "metric": {"type": "string"},
+            "value": {"type": "number"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "admissibility": {
+      "type": "object",
+      "required": ["non_fitted", "status"],
+      "properties": {
+        "non_fitted": {"type": "boolean"},
+        "status": {"type": "string", "enum": ["candidate", "rejected", "provisional", "accepted_for_validation"]},
+        "rationale": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/field_family.schema.json",
+  "title": "EAS Explicit Scalar Field Family",
+  "type": "object",
+  "required": ["schema_version", "field_id", "motif_id", "layers", "constructor", "supports"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "field_id": {"type": "string"},
+    "motif_id": {"type": "string"},
+    "description": {"type": "string"},
+    "layers": {
+      "type": "object",
+      "required": ["count", "ordering"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 1},
+        "ordering": {"type": "string", "enum": ["explicit", "indexed", "derived"]},
+        "labels": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "constructor": {
+      "type": "object",
+      "required": ["constructor_id", "kind"],
+      "properties": {
+        "constructor_id": {"type": "string"},
+        "kind": {"type": "string", "enum": ["explicit_assignment", "template_based", "generated", "hybrid"]},
+        "parameters": {"type": "object", "additionalProperties": {"type": ["number", "string", "boolean", "array", "object"]}}
+      },
+      "additionalProperties": false
+    },
+    "supports": {
+      "type": "object",
+      "required": ["closure_cells"],
+      "properties": {
+        "closure_cells": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "shells": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "bridges": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "regions": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+      },
+      "additionalProperties": false
+    },
+    "field_values": {
+      "type": "object",
+      "description": "Optional inline field values or external references.",
+      "properties": {
+        "inline": {"type": "boolean"},
+        "format": {"type": "string"},
+        "data_ref": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "rule_refs": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

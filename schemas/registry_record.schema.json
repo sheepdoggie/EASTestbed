@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/registry_record.schema.json",
+  "title": "EAS Testbed Registry Record",
+  "type": "object",
+  "required": [
+    "record_version",
+    "experiment_id",
+    "title",
+    "experiment_class",
+    "created_at_utc",
+    "schema_path",
+    "manifest_path",
+    "manifest_sha256",
+    "modules",
+    "status",
+    "bundle"
+  ],
+  "properties": {
+    "record_version": {"type": "string"},
+    "experiment_id": {"type": "string"},
+    "title": {"type": "string"},
+    "experiment_class": {
+      "type": "string",
+      "enum": ["exploratory", "heuristic", "evidential"]
+    },
+    "schema_version": {"type": ["string", "null"]},
+    "schema_path": {"type": "string"},
+    "manifest_path": {"type": "string"},
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "created_at_utc": {"type": "string"},
+    "modules": {
+      "type": "object",
+      "required": [
+        "motif",
+        "field_family",
+        "kernel_rule",
+        "templates",
+        "invariants",
+        "redescription",
+        "interface"
+      ],
+      "properties": {
+        "motif": {"type": "object"},
+        "field_family": {"type": "object"},
+        "kernel_rule": {"type": "object"},
+        "templates": {"type": "array"},
+        "invariants": {"type": "array"},
+        "redescription": {"type": "object"},
+        "interface": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "status": {"type": "string"},
+    "notes": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "bundle": {
+      "type": "object",
+      "required": [
+        "manifest_copy",
+        "resolved_manifest",
+        "registry_record",
+        "module_versions",
+        "summary_json",
+        "summary_csv",
+        "artifact_index",
+        "report_ref"
+      ],
+      "properties": {
+        "manifest_copy": {"type": "string"},
+        "resolved_manifest": {"type": "string"},
+        "registry_record": {"type": "string"},
+        "module_versions": {"type": "string"},
+        "summary_json": {"type": "string"},
+        "summary_csv": {"type": "string"},
+        "artifact_index": {"type": "string"},
+        "report_ref": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

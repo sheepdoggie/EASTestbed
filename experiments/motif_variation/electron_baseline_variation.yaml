@@ -1,0 +1,116 @@
+manifest_version: 1.0
+experiment_id: motif_variation.electron_baseline.v1
+experiment_class: heuristic
+family: motif_variation
+purpose: >-
+  Baseline intra-class motif-variation experiment for an electron-like charged
+  plateau. This manifest is intended as the first reusable testbed example.
+
+standard_ref: standards/ESTS-1.0.md
+schema_ref: schemas/experiment.schema.json
+
+modules:
+  motif_generator:
+    kind: registry_ref
+    schema: schemas/motif.schema.json
+    ref: motifs/electron_like_baseline.json
+    variation_family:
+      enabled: true
+      mode: intra_class
+      operators:
+        - edge_swap_boundary_local
+        - shell_width_shift
+        - closure_cell_relabel
+        - dressing_density_perturbation
+      max_variants: 24
+      preserve_class_identity: true
+
+  field_constructor:
+    kind: implementation_ref
+    schema: schemas/field_family.schema.json
+    ref: src/fields/ordered_scalar_constructor.py::build_electron_family
+    parameters:
+      layer_count: 6
+      signed_admissibility: true
+      shell_count: 3
+      include_dressing: true
+      include_neutral_excess: false
+      include_reconciliation_band: false
+      closure_cell_rule: rank3_local
+
+  kernel_rule_engine:
+    kind: implementation_ref
+    ref: src/kernel_rules/residual_projection_rules.py::apply_default_rules
+    parameters:
+      forcing_channel: electric_type
+      residual_projection: zero_sum_slot_plane
+      slot_cycle: canonical_positive
+      shell_strain_rule: outward_next_shell
+      core_strain_rule: canonical_core_chain
+
+  template_extractor:
+    kind: implementation_ref
+    schema: schemas/template.schema.json
+    ref: src/templates/canonical_templates.py::extract_templates
+    templates:
+      - template_id: outer_charged_boundary_dressing_residual
+        enabled: true
+      - template_id: charged_core_residual
+        enabled: true
+      - template_id: first_neutral_excess_residual
+        enabled: false
+      - template_id: reconciliation_mismatch_field
+        enabled: false
+
+  invariant_engine:
+    kind: implementation_ref
+    schema: schemas/invariant.schema.json
+    ref: src/invariants/basic_candidates.py::compute_candidates
+    candidates:
+      - invariant_id: I_out
+        template_ref: outer_charged_boundary_dressing_residual
+        rule: summed_residual_norm
+      - invariant_id: I_core
+        template_ref: charged_core_residual
+        rule: summed_residual_norm
+    require_non_fitted: true
+
+  redescription_engine:
+    kind: implementation_ref
+    ref: src/redescriptions/basic_orbits.py::generate_orbit
+    parameters:
+      slot_relabelings: true
+      shell_relabelings: true
+      closure_regroupings: true
+      max_orbit_size: 20
+      preserve_plateau_class: true
+
+  interface_emulator:
+    kind: disabled
+    reason: >-
+      This baseline experiment is for motif variation and invariant stability
+      only. No interface artifact is to be used as evidence here.
+
+run_control:
+  seed: 1001
+  repeats: 1
+  save_raw_fields: true
+  save_templates: true
+  save_invariants: true
+  save_redescription_orbit: true
+
+outputs:
+  registry_dir: registry/experiments/motif_variation/electron_baseline_v1
+  summary_file: summary.json
+  invariant_table: invariant_candidates.csv
+  orbit_table: redescription_orbit.csv
+  notes_file: notes.md
+
+provenance:
+  author: Michael E. Labhard
+  status: baseline_example
+  evidential_tier: heuristic
+  fitted_quantities_used_as_kernel_evidence: false
+  notes: >-
+    This manifest is intended only as a reusable baseline example for motif
+    variation under fixed scalar-field and kernel-rule assumptions.

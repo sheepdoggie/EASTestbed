@@ -1,0 +1,62 @@
+{
+  "record_version": "1.0",
+  "experiment_id": "motif_variation.electron_baseline.v2",
+  "title": "Electron baseline motif-variation experiment (schema-valid)",
+  "experiment_class": "heuristic",
+  "schema_version": "1.0",
+  "schema_path": "schemas/experiment.schema.json",
+  "manifest_path": "experiments/motif_variation/electron_baseline_variation_v2.yaml",
+  "manifest_sha256": "9bdcba5811368cfec5db115fa1be02e22cf338423052a1605dd997faddea3d45",
+  "created_at_utc": "2026-04-01T22:05:57.241158+00:00",
+  "modules": {
+    "motif": {
+      "motif_ref": "motifs/electron_like_baseline.json",
+      "variation_mode": "perturbation",
+      "overrides": {
+        "max_variants": 24,
+        "preserve_class_identity": true
+      }
+    },
+    "field_family": {
+      "field_ref": "fields/electron_like_baseline.json",
+      "overrides": {
+        "layer_count": 6,
+        "signed_admissibility": true,
+        "shell_count": 3
+      }
+    },
+    "kernel_rule": {
+      "rule_ref": "kernel_rules/default_residual_projection.yaml",
+      "overrides": {
+        "forcing_channel": "electric_type",
+        "residual_projection": "zero_sum_slot_plane"
+      }
+    },
+    "templates": [
+      "outer_charged_boundary_dressing_residual",
+      "charged_core_residual"
+    ],
+    "invariants": [
+      "I_out",
+      "I_core"
+    ],
+    "redescription": {
+      "engine_ref": "redescriptions/basic_orbit.yaml",
+      "orbit_size": 20,
+      "seed": 1001
+    },
+    "interface": {
+      "enabled": false
+    }
+  },
+  "outputs": {
+    "artifact_dir": "registry/artifacts/motif_variation.electron_baseline.v2",
+    "report_ref": "registry/reports/motif_variation.electron_baseline.v2.md",
+    "write_registry": true
+  },
+  "status": "stub_completed",
+  "notes": [
+    "This record was produced by the stub runner.",
+    "No scalar-field construction or invariant computation has been executed yet."
+  ]
+}

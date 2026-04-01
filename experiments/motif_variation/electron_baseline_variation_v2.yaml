@@ -1,0 +1,37 @@
+schema_version: "1.0"
+experiment_id: motif_variation.electron_baseline.v2
+title: Electron baseline motif-variation experiment (schema-valid)
+experiment_class: heuristic
+motif:
+  motif_ref: motifs/electron_like_baseline.json
+  variation_mode: perturbation
+  overrides:
+    max_variants: 24
+    preserve_class_identity: true
+field_family:
+  field_ref: fields/electron_like_baseline.json
+  overrides:
+    layer_count: 6
+    signed_admissibility: true
+    shell_count: 3
+kernel_rule:
+  rule_ref: kernel_rules/default_residual_projection.yaml
+  overrides:
+    forcing_channel: electric_type
+    residual_projection: zero_sum_slot_plane
+templates:
+  - outer_charged_boundary_dressing_residual
+  - charged_core_residual
+invariants:
+  - I_out
+  - I_core
+redescription:
+  engine_ref: redescriptions/basic_orbit.yaml
+  orbit_size: 20
+  seed: 1001
+interface:
+  enabled: false
+outputs:
+  report_ref: registry/reports/motif_variation.electron_baseline.v2.md
+  artifact_dir: registry/artifacts/motif_variation.electron_baseline.v2
+  write_registry: true

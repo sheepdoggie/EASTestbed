@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/motif.schema.json",
+  "title": "EAS Motif",
+  "type": "object",
+  "required": ["schema_version", "motif_id", "class", "regions", "provenance"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "motif_id": {"type": "string", "minLength": 1},
+    "class": {"type": "string", "enum": ["electron_like", "muon_like", "tau_like", "candidate", "other"]},
+    "description": {"type": "string"},
+    "regions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["region_id", "role"],
+        "properties": {
+          "region_id": {"type": "string"},
+          "role": {
+            "type": "string",
+            "enum": ["outer_boundary_dressing", "charged_core", "neutral_excess", "reconciliation_band", "dressing", "other"]
+          },
+          "support_cardinality": {"type": "integer", "minimum": 0},
+          "sign_structure": {"type": "string", "enum": ["positive", "negative", "mixed", "unsigned", "unknown"]},
+          "metadata": {"type": "object", "additionalProperties": true}
+        },
+        "additionalProperties": false
+      }
+    },
+    "adjacency": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "relation"],
+        "properties": {
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "relation": {"type": "string"},
+          "weight": {"type": "number"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "variation_family": {
+      "type": "object",
+      "properties": {
+        "family_id": {"type": "string"},
+        "parameters": {"type": "object", "additionalProperties": {"type": ["number", "string", "boolean"]}},
+        "mutation_ops": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["created_by", "created_at", "status"],
+      "properties": {
+        "created_by": {"type": "string"},
+        "created_at": {"type": "string"},
+        "status": {"type": "string", "enum": ["draft", "exploratory", "heuristic", "evidential"]},
+        "notes": {"type": "string"},
+        "source_refs": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

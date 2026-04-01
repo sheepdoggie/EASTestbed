@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/result_summary.schema.json",
+  "title": "EAS Testbed Result Summary",
+  "type": "object",
+  "required": [
+    "summary_version",
+    "experiment_id",
+    "status",
+    "computed_at_utc",
+    "module_versions",
+    "artifacts",
+    "summary"
+  ],
+  "properties": {
+    "summary_version": {"type": "string"},
+    "experiment_id": {"type": "string"},
+    "status": {"type": "string"},
+    "computed_at_utc": {"type": "string"},
+    "module_versions": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": ["kind", "items"],
+      "properties": {
+        "kind": {"type": "string"},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "value", "kind"],
+            "properties": {
+              "name": {"type": "string"},
+              "value": {},
+              "kind": {"type": "string"},
+              "units": {"type": ["string", "null"]},
+              "notes": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

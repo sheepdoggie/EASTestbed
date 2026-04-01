@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/template.schema.json",
+  "title": "EAS Canonical Template",
+  "type": "object",
+  "required": ["schema_version", "template_id", "kind", "support", "local_rule"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "template_id": {"type": "string"},
+    "kind": {
+      "type": "string",
+      "enum": ["outer_residual", "core_residual", "neutral_excess_residual", "reconciliation_mismatch", "other"]
+    },
+    "description": {"type": "string"},
+    "support": {
+      "type": "object",
+      "required": ["support_kind"],
+      "properties": {
+        "support_kind": {"type": "string"},
+        "region_refs": {"type": "array", "items": {"type": "string"}},
+        "bridge_refs": {"type": "array", "items": {"type": "string"}},
+        "selection_rule": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "local_rule": {
+      "type": "object",
+      "required": ["rule_kind"],
+      "properties": {
+        "rule_kind": {"type": "string", "enum": ["strain", "projection", "mismatch", "hybrid"]},
+        "expression": {"type": "string"},
+        "projection": {"type": "string"},
+        "alignment_map": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "normalization": {
+      "type": "object",
+      "properties": {
+        "mode": {"type": "string", "enum": ["none", "l2", "shellwise", "custom"]},
+        "expression": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "representation": {"type": "string", "enum": ["pointwise_field", "cellwise_scalar", "vector_field", "hybrid"]},
+        "data_ref": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
